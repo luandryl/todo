@@ -10,45 +10,46 @@ export default {
   methods: {
     getText: function () {
       this.editable = !this.editable
-      this.task = document.getElementById('active').textContent
+      this.task = this.$refs.active.textContent
       console.log(this.task)
-      document.getElementById('active').innerHTML = 'Digite e aperte enter'
+      this.$refs.active.innerHTML = 'Digite e aperte enter'
       this.save()
     },
     clickHandler: function () {
-      document.getElementById('active').innerHTML = ''
+      console.log(this.$parent.localStorage)
+      this.$refs.active.innerHTML = ''
       this.editable = true
     },
     save: function () {
-      if (JSON.parse(window.localStorage.getItem('tasks')) === null) {
+      if (JSON.parse(this.$parent.localStorage.get('tasks')) === null) {
         let tasks = {
           items: []
         }
-        window.localStorage.setItem('tasks', JSON.stringify(tasks))
+        this.$parent.localStorage.set('tasks', JSON.stringify(tasks))
       }
 
       let task = {
         'task': this.task,
         'status': 0
       }
-      let tasks = JSON.parse(window.localStorage.getItem('tasks'))
+      let tasks = JSON.parse(this.$parent.localStorage.get('tasks'))
       tasks.items.push(task)
-      window.localStorage.setItem('tasks', JSON.stringify(tasks))
+      this.$parent.localStorage.set('tasks', JSON.stringify(tasks))
       this.loadData()
     },
     done: function (item) {
       item.status = 1
       window.localStorage.removeItem('tasks')
-      window.localStorage.setItem('tasks', JSON.stringify(this.tasks))
+      this.$parent.localStorage.set('tasks', JSON.stringify(this.tasks))
       this.loadData()
     },
     remove: function (item) {
       this.tasks.items.splice(item, 1)
-      window.localStorage.setItem('tasks', JSON.stringify(this.tasks))
+      this.$parent.localStorage.set('tasks', JSON.stringify(this.tasks))
     },
     loadData: function () {
-      if (JSON.parse(window.localStorage.getItem('tasks')) != null) {
-        this.tasks = JSON.parse(window.localStorage.getItem('tasks'))
+      if (JSON.parse(this.$parent.localStorage.get('tasks')) != null) {
+        this.tasks = JSON.parse(this.$parent.localStorage.get('tasks'))
       }
       console.log(this.tasks)
     }
@@ -72,7 +73,7 @@ export default {
   		<div class="tasks-box">
 
   			<h1>Tarefas </h1>
-  			<div class="tasks add" id="active" :contenteditable="editable" v-on:keyup.enter="getText" v-on:click="clickHandler">
+  			<div class="tasks add" ref="active" :contenteditable="editable" v-on:keyup.enter="getText" v-on:click="clickHandler">
   				Digite e aperte enter
   			</div>
 
