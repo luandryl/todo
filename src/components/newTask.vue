@@ -79,10 +79,10 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
+  font-weight: lighter;
 }
 .newTaskBox {
   background: #fff;
-  border-radius: 15px;
 }
 .content {
   padding: 3rem;

@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div class="bg">
     <todo></todo>
   </div>
 </template>
@@ -15,14 +15,15 @@ export default {
 }
 </script>
 
-<style>
-body {
-  background: #F7F7F7;
-}
-#app {
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  color: #2c3e50;
-  padding: 2rem;
-}
+<style lang="sass">
+.bg
+  background: url(assets/top.jpg) no-repeat center center fixed
+  -webkit-background-size: cover
+  -moz-background-size: cover
+  background-size: cover
+  -o-background-size: cover
+  min-height: 100vh
+  position: relative
+  height: 100%
+
 </style>
