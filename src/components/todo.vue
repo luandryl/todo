@@ -11,12 +11,10 @@ export default {
     getText: function () {
       this.editable = !this.editable
       this.task = this.$refs.active.textContent
-      console.log(this.task)
       this.$refs.active.innerHTML = 'Digite e aperte enter'
       this.save()
     },
     clickHandler: function () {
-      console.log(this.$parent.localStorage)
       this.$refs.active.innerHTML = ''
       this.editable = true
     },
@@ -51,7 +49,6 @@ export default {
       if (JSON.parse(this.$parent.localStorage.get('tasks')) != null) {
         this.tasks = JSON.parse(this.$parent.localStorage.get('tasks'))
       }
-      console.log(this.tasks)
     }
   },
   created: function () {
