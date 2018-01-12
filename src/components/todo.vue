@@ -40,8 +40,10 @@ export default {
         'status': 0
       }
       let tasks = JSON.parse(this.$parent.localStorage.get('tasks'))
-      tasks[this.dateIndex()] = {
-        items: []
+      if (!tasks[this.dateIndex()]) {
+        tasks[this.dateIndex()] = {
+          items: []
+        }
       }
       tasks[this.dateIndex()].items.push(task)
       this.$parent.localStorage.set('tasks', JSON.stringify(tasks))
