@@ -19,6 +19,14 @@ export default {
       this.$refs.active.innerHTML = ''
       this.editable = true
     },
+    nextDay: function () {
+      this.dateHandler('f')
+      console.log(this.date)
+    },
+    prevDay: function () {
+      this.dateHandler()
+      console.log(this.date)
+    },
     save: function () {
       if (JSON.parse(this.$parent.localStorage.get('tasks')) === null) {
         let tasks = {
@@ -50,14 +58,24 @@ export default {
       if (JSON.parse(this.$parent.localStorage.get('tasks')) != null) {
         this.tasks = JSON.parse(this.$parent.localStorage.get('tasks'))
       }
+    },
+    dateHandler (direction) {
+      if (direction === 'f') {
+        this.date = (this.date + (24 * 60 * 60 * 1000))
+      } else {
+        this.date = (this.date - (24 * 60 * 60 * 1000))
+      }
+    },
+    dateFormater () {
+      return new Date(this.date).toLocaleString('pt-br', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+      }).split('de')
     }
   },
   created: function () {
-    this.date = new Date(Date.now()).toLocaleString('pt-br', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric'
-    }).split('de')
+    this.date = Date.now()
     this.loadData()
   }
 }
@@ -66,13 +84,13 @@ export default {
 	<div class="todoContainer">
 		<div class="todoTop">
 			<div>
-				<label class="day">{{this.date[0]}}</label><label class="data-end"> {{this.date[1]}} <br /> {{this.date[2]}}</label>
+				<label class="day">{{this.dateFormater()[0]}}</label><label class="data-end"> {{this.dateFormater()[1]}} <br /> {{this.dateFormater()[2]}}</label>
 			</div>
 			<h1>Bem Vindo</h1>
 		</div>
 
     <div class="todoWrapper">
-      <i class="fa fa-angle-left fa-5x arrow" aria-hidden="true"></i>
+      <i @click='prevDay()'class="fa fa-angle-left fa-5x arrow" aria-hidden="true"></i>
   		<div class="tasks-box">
 
   			<h1>Tarefas </h1>
@@ -89,7 +107,7 @@ export default {
   			</div>
 
   		</div>
-      <i class="fa fa-angle-right fa-5x arrow" aria-hidden="true"></i>
+      <i @click='nextDay()' class="fa fa-angle-right fa-5x arrow" aria-hidden="true"></i>
     </div>
 
 	</div>
