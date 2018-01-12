@@ -21,26 +21,29 @@ export default {
     },
     nextDay: function () {
       this.dateHandler('f')
-      console.log(this.date)
+      this.loadData()
     },
     prevDay: function () {
       this.dateHandler()
-      console.log(this.date)
+      this.loadData()
     },
     save: function () {
       if (JSON.parse(this.$parent.localStorage.get('tasks')) === null) {
-        let tasks = {
+        let tasks = {}
+        tasks[this.dateIndex()] = {
           items: []
         }
         this.$parent.localStorage.set('tasks', JSON.stringify(tasks))
       }
-
       let task = {
         'task': this.task,
         'status': 0
       }
       let tasks = JSON.parse(this.$parent.localStorage.get('tasks'))
-      tasks.items.push(task)
+      tasks[this.dateIndex()] = {
+        items: []
+      }
+      tasks[this.dateIndex()].items.push(task)
       this.$parent.localStorage.set('tasks', JSON.stringify(tasks))
       this.loadData()
     },
@@ -56,7 +59,7 @@ export default {
     },
     loadData: function () {
       if (JSON.parse(this.$parent.localStorage.get('tasks')) != null) {
-        this.tasks = JSON.parse(this.$parent.localStorage.get('tasks'))
+        this.tasks = JSON.parse(this.$parent.localStorage.get('tasks'))[this.dateIndex()] || {}
       }
     },
     dateHandler (direction) {
@@ -72,6 +75,9 @@ export default {
         month: 'long',
         day: 'numeric'
       }).split('de')
+    },
+    dateIndex () {
+      return new Date(this.date).getMonth() + '-' + new Date(this.date).getDate() + '-' + new Date(this.date).getFullYear()
     }
   },
   created: function () {
