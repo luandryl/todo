@@ -4,7 +4,8 @@ export default {
     return {
       editable: true,
       task: '',
-      tasks: []
+      tasks: [],
+      date: []
     }
   },
   methods: {
@@ -52,6 +53,11 @@ export default {
     }
   },
   created: function () {
+    this.date = new Date(Date.now()).toLocaleString('pt-br', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    }).split('de')
     this.loadData()
   }
 }
@@ -60,7 +66,7 @@ export default {
 	<div class="todoContainer">
 		<div class="todoTop">
 			<div>
-				<label class="day">31</label><label class="data-end"> Janeiro <br /> 2017 </label>
+				<label class="day">{{this.date[0]}}</label><label class="data-end"> {{this.date[1]}} <br /> {{this.date[2]}}</label>
 			</div>
 			<h1>Bem Vindo</h1>
 		</div>
